@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isoft.pokeapi.dto.ResponseTypeDominanceDTO;
+import com.isoft.pokeapi.dto.ResponseWeakDefenseDTO;
+import com.isoft.pokeapi.dto.response.ResponsePokemonChainEvolutionDTO;
 import com.isoft.pokeapi.service.PokemonService;
 
 @RestController 
@@ -23,18 +25,6 @@ public class PokemonController {
     @GetMapping("/type-dominance/{type}")
     public List<ResponseTypeDominanceDTO> PokemonTypeDominance(@PathVariable ("type") String tipo) {
         return pokemonService.obtenerPokemonsPorTipo(tipo);
-import com.isoft.pokeapi.dto.response.ResponsePokemonChainEvolutionDTO;
-import com.isoft.pokeapi.service.PokemonService;
-import com.isoft.pokeapi.dto.ResponseWeakDefenseDTO;
-
-@RestController
-@RequestMapping("/pokemon")
-public class PokemonController {
-
-    private final PokemonService pokemonService;
-
-    public PokemonController(PokemonService pokemonService) {
-        this.pokemonService = pokemonService;
     }
 
     @GetMapping("/evolution-chain/{id}")
