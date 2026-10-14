@@ -23,5 +23,27 @@ public class PokemonController {
     @GetMapping("/type-dominance/{type}")
     public List<ResponseTypeDominanceDTO> PokemonTypeDominance(@PathVariable ("type") String tipo) {
         return pokemonService.obtenerPokemonsPorTipo(tipo);
+import com.isoft.pokeapi.dto.response.ResponsePokemonChainEvolutionDTO;
+import com.isoft.pokeapi.service.PokemonService;
+import com.isoft.pokeapi.dto.ResponseWeakDefenseDTO;
+
+@RestController
+@RequestMapping("/pokemon")
+public class PokemonController {
+
+    private final PokemonService pokemonService;
+
+    public PokemonController(PokemonService pokemonService) {
+        this.pokemonService = pokemonService;
+    }
+
+    @GetMapping("/evolution-chain/{id}")
+    public ResponsePokemonChainEvolutionDTO evolutionChainPorID(@PathVariable int id){
+        return pokemonService.obtenerEvolucionPorId(id);
+    }
+
+    @GetMapping("/weak-defense")
+    public List<ResponseWeakDefenseDTO> obtenerPokemonsDebiles(){
+         return pokemonService.pokemonsDebiles();
     }
 }
