@@ -10,13 +10,12 @@ import com.isoft.pokeapi.dto.evolutionchain.APIEvolutionChainDTO;
 import com.isoft.pokeapi.dto.pokemon.APIPokemonChainBaseDTO;
 import com.isoft.pokeapi.dto.response.ResponsePokemonChainEvolutionDTO;
 
-@Service
 import com.isoft.pokeapi.dto.PokemonBaseDTO;
 import com.isoft.pokeapi.dto.PokemonTypesDTO;
 import com.isoft.pokeapi.dto.ResponseWeakDefenseDTO;
 import com.isoft.pokeapi.dto.StatsDetailsDTO;
 
-@Service 
+@Service
 public class PokemonService {
 
     private final RestTemplate restTemplate;
@@ -47,6 +46,8 @@ public class PokemonService {
             }            
         }
         return evolucionesObtenidas;
+    }
+
     public List<ResponseWeakDefenseDTO> pokemonsDebiles() {
         List<ResponseWeakDefenseDTO> masDebiles = new ArrayList<>();
 
@@ -55,12 +56,12 @@ public class PokemonService {
             PokemonBaseDTO pokemonRecibido = restTemplate.getForObject(url, PokemonBaseDTO.class);
 
             List<StatsDetailsDTO> estadisticas = pokemonRecibido.getStats();
-            List<String> tiposPokemon = new ArrayList<>(); 
+            List<String> tiposPokemon = new ArrayList<>();
             List<PokemonTypesDTO> tipos = pokemonRecibido.getTypes();
 
             int defense = 0;
             int sp_defense = 0;
-            
+
             for (StatsDetailsDTO estadistica : estadisticas) {
                 String nombreStat = estadistica.getStat().getName();
 
@@ -68,19 +69,20 @@ public class PokemonService {
                     defense = estadistica.getBase_stat();
                 } else if (nombreStat.equals("special-defense")) {
                     sp_defense = estadistica.getBase_stat();
-                }                
+                }
             }
 
-            for(PokemonTypesDTO tipo : tipos ) {
+            for (PokemonTypesDTO tipo : tipos) {
                 String nombreTipo = tipo.getType().getName();
                 tiposPokemon.add(nombreTipo);
             }
 
             if (sp_defense < 40 && defense < 40) {
-                ResponseWeakDefenseDTO pokemonDebil = new ResponseWeakDefenseDTO(pokemonRecibido.getId(), pokemonRecibido.getName(), defense, sp_defense, tiposPokemon);
+                ResponseWeakDefenseDTO pokemonDebil = new ResponseWeakDefenseDTO(pokemonRecibido.getId(),
+                        pokemonRecibido.getName(), defense, sp_defense, tiposPokemon);
                 masDebiles.add(pokemonDebil);
             }
         }
-        return masDebiles; 
+        return masDebiles;
     }
 }
